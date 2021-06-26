@@ -6,17 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.exoplayer2.ui.PlayerView
+    <com.github.vkay94.dtpv.DoubleTapPlayerView
         android:id="@+id/exoPlayerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:dtpv_controller="@+id/youtube_overlay" />
 
-    <Button
-        android:id="@+id/bvLanguage"
+    <com.github.vkay94.dtpv.youtube.YouTubeOverlay
+        android:id="@+id/youtube_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        app:yt_playerView="@+id/exoPlayerView" />
+
+    <ImageButton
+        android:id="@+id/bvTrack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Language"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="#80000000"
+        android:padding="10dp"
+        android:src="@drawable/ic_music"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/bvPayerState"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@null"
+        android:src="@drawable/ic_pause"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pbLoader"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
