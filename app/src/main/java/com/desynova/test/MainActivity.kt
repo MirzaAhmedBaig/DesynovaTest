@@ -10,6 +10,7 @@ import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.desynova.test.databinding.ActivityMainBinding
 import com.github.vkay94.dtpv.youtube.YouTubeOverlay
 import com.google.android.exoplayer2.MediaItem
@@ -26,6 +27,10 @@ class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.simpleName
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val viewModel by lazy {
+        ViewModelProvider(this).get(MediaViewModel::class.java)
     }
 
     private var exoPlayer: SimpleExoPlayer? = null
@@ -125,8 +130,8 @@ class MainActivity : AppCompatActivity() {
 
         with(exoPlayer) {
             this?.setMediaItem(MediaItem.fromUri(getString(R.string.media_url_mp3)))
-            this?.playWhenReady = playWhenReady
-            this?.seekTo(currentWindow, playbackPosition)
+            this?.playWhenReady = viewModel.playWhenReady
+            this?.seekTo(viewModel.currentWindow, viewModel.playbackPosition)
             this?.prepare()
             this?.addListener(object : Player.Listener {
 
@@ -165,15 +170,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private var playWhenReady = true
-    private var currentWindow = 0
-    private var playbackPosition: Long = 0
     private var trackSelector: DefaultTrackSelector? = null
     private fun releasePlayer() {
         exoPlayer?.let {
-            playWhenReady = it.playWhenReady
-            playbackPosition = it.currentPosition
-            currentWindow = it.currentWindowIndex
+            viewModel.playWhenReady = it.playWhenReady
+            viewModel.playbackPosition = it.currentPosition
+            viewModel.currentWindow = it.currentWindowIndex
             it.release()
             exoPlayer = null
         }
